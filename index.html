@@ -160,33 +160,55 @@
             
             <!-- Mobile Menu Button -->
             <div class="md:hidden">
-                <button id="menu-btn" class="hamburger focus:outline-none">
-                    <span class="hamburger-top"></span>
-                    <span class="hamburger-middle"></span>
-                    <span class="hamburger-bottom"></span>
-                </button>
+                <button id="menu-btn" class="hamburger md:hidden">
+  <span class="hamburger-top"></span>
+  <span class="hamburger-middle"></span>
+  <span class="hamburger-bottom"></span>
+</button>
             </div>
             
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-8">
                 <a href="#" class="hover:text-gray-300 transition">Home</a>
                 <a href="#about" class="hover:text-gray-300 transition">About</a>
+                <a href="#security-services" class="hover:text-gray-300 transition">Guarding</a>
                 <a href="#psira" class="hover:text-gray-300 transition">PSIRA Training</a>
                 <a href="#firearm" class="hover:text-gray-300 transition">Firearm Training</a>
                 <a href="#contact" class="hover:text-gray-300 transition">Contact</a>
             </div>
         </div>
         
-        <!-- Mobile Menu -->
-        <div id="menu" class="hidden md:hidden bg-royalblue px-6 pb-4">
-            <div class="flex flex-col space-y-3">
-                <a href="#" class="hover:text-gray-300 transition">Home</a>
-                <a href="#about" class="hover:text-gray-300 transition">About</a>
-                <a href="#psira" class="hover:text-gray-300 transition">PSIRA Training</a>
-                <a href="#firearm" class="hover:text-gray-300 transition">Firearm Training</a>
-                <a href="#contact" class="hover:text-gray-300 transition">Contact</a>
-            </div>
-        </div>
+        <!-- Mobile Menu (animated) -->
+<div id="menu" class="md:hidden fixed inset-0 top-[72px] z-30 transform-gpu
+                    -translate-x-full opacity-0 transition-all duration-300 ease-in-out
+                    bg-royalblue text-white">
+  <div class="flex flex-col space-y-3 px-6 py-4">
+    <a href="#" class="flex items-center space-x-3 py-2">
+      <i class="fas fa-home w-5"></i>
+      <span>Home</span>
+    </a>
+    <a href="#about" class="flex items-center space-x-3 py-2">
+      <i class="fas fa-info-circle w-5"></i>
+      <span>About</span>
+    </a>
+    <a href="#psira" class="flex items-center space-x-3 py-2">
+      <i class="fas fa-user-shield w-5"></i>
+      <span>PSIRA Training</span>
+    </a>
+    <a href="#security-services" class="flex items-center space-x-3 py-2">
+      <i class="fas fa-shield-alt w-5"></i>
+      <span>Guarding</span>
+    </a>
+    <a href="#firearm" class="flex items-center space-x-3 py-2">
+      <i class="fas fa-crosshairs w-5"></i>
+      <span>Firearm Training</span>
+    </a>
+    <a href="#contact" class="flex items-center space-x-3 py-2">
+      <i class="fas fa-envelope w-5"></i>
+      <span>Contact</span>
+    </a>
+  </div>
+</div>
     </nav>
     
     <!-- Hero Section -->
@@ -237,7 +259,7 @@
                             </div>
                             <div>
                                 <h3 class="font-bold text-gray-800">Location</h3>
-                                <p>Market St, Polokwane Central, Polokwane, 0699</p>
+                                <p>58 Market Street, Dingakeng Building, Polokwane, 0699</p>
                             </div>
                         </div>
                         
@@ -831,8 +853,10 @@
         </div>
         
         <div class="border-t border-blue-400 mt-8 pt-8 text-center">
-            <p>&copy; 2025 Lashield Security Training & Services. All rights reserved.</p>
-        </div>
+    <p>&copy; 2025 Lashield Security Training & Services. All rights reserved.</p>
+    <p class="text-sm text-gray-500 mt-2">By <a href="https://valoyitech.co.za/" target="_blank" class="text-blue-600 hover:underline">ValoyItech</a></p>
+</div>
+
     </div>
 </footer>
 
@@ -847,16 +871,47 @@
     </a>
 </div>
 
+<script>
+(() => {
+  /* --- Grab the elements --- */
+  const btn   = document.getElementById('menu-btn');
+  const panel = document.getElementById('menu');
+  if (!btn || !panel) return;        // failsafe
+
+  /* --- Toggle helper --- */
+  const toggleMenu = () => {
+    btn.classList.toggle('open');                 // morph hamburger → X
+    panel.classList.toggle('-translate-x-full');  // slide from left
+    panel.classList.toggle('opacity-0');          // fade in/out
+  };
+
+  /* --- Event listeners --- */
+  btn.addEventListener('click', toggleMenu);
+
+  /* Close when a link inside the menu is clicked */
+  panel.querySelectorAll('a').forEach(link =>
+    link.addEventListener('click', () => {
+      btn.classList.remove('open');
+      panel.classList.add('-translate-x-full', 'opacity-0');
+    })
+  );
+
+  /* Close when user clicks outside the menu */
+  document.addEventListener('click', (e) => {
+    if (
+      !panel.classList.contains('-translate-x-full') && // menu is open
+      !btn.contains(e.target) &&                        // not hamburger
+      !panel.contains(e.target)                         // not menu panel
+    ) {
+      btn.classList.remove('open');
+      panel.classList.add('-translate-x-full', 'opacity-0');
+    }
+  });
+})();
+</script>
+
     <script>
-        // Mobile menu toggle
-        const menuBtn = document.getElementById('menu-btn');
-        const menu = document.getElementById('menu');
         
-        menuBtn.addEventListener('click', () => {
-            menuBtn.classList.toggle('open');
-            menu.classList.toggle('hidden');
-            menu.classList.toggle('flex');
-        });
         
         // Scroll animations
         const animateElements = document.querySelectorAll('.animate-on-scroll');
